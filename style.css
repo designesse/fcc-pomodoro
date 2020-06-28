@@ -13,6 +13,8 @@ h1 { margin-bottom: 50px; }
     max-width: 700px;
 }
 
+.cap { text-transform: capitalize; }
+
 .inl-bl { display: inline-block; }
 
 .marg-bot-m { margin-bottom: 20px; }

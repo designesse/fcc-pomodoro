@@ -16,13 +16,14 @@ class PomodoroClock extends React.Component {
 }
 
 function Setting(props) {
+    let name = props.name;
     return (
         <div className="marg-bot-m">
-            <div id="{props.name}-label">{props.name} length</div>
+            <div id={props.name + "-label"} className="cap">{props.name} length</div>
             <div>
-                <span className="unary-button inl-bl" id="{props.name}-decrement">-</span>
-                <span id="{props.name}-length">0</span>
-                <span className="unary-button inl-bl" id="{props.name}-increment">+</span>
+                <span id={props.name + "-decrement"} className="unary-button inl-bl">-</span>
+                <span id={props.name + "-length"}>0</span>
+                <span id={props.name + "-increment"} className="unary-button inl-bl">+</span>
             </div>
         </div>
     );

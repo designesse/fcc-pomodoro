@@ -25,6 +25,12 @@ h1 { margin-bottom: 50px; }
     width: 200px;
 }
 
+button.unary-button {
+    border-radius: 1em;
+    color: #aaa;
+    margin: 10px;
+}
+
 .cap { text-transform: capitalize; }
 
 .fl-r { float: right; }
@@ -34,16 +40,10 @@ h1 { margin-bottom: 50px; }
 .marg-bot-m { margin-bottom: 20px; }
 .marg-top-m { margin-top: 20px; }
 
+.pointer { cursor: pointer; }
+.pointer:disabled { cursor: auto; }
+
 .text-bold { font-weight: bold; }
 .text-cap { text-transform: capitalize; }
 .text-l { font-size: 1.5em; }
 .text-underline { text-decoration: underline; }
-
-.unary-button {
-    border: 2px solid #aaa;
-    border-radius: 1em;
-    color: #aaa;
-    margin: 10px;
-    text-align: center;
-    width: 1em;
-}

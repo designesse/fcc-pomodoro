@@ -3,12 +3,21 @@
 const e = React.createElement;
 
 class PomodoroClock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            'sessions': [
+                { name: 'break', defaultVal: 5, val: 5 },
+                { name: 'session', defaultVal: 25, val:25 }
+            ]
+        };
+    }
     render() {
         return (
             <React.Fragment>
                 <h1>FCC Pomodoro Clock</h1>
-                    {['break', 'session'].map( (seance, i) => (
-                        <Setting key={i} name={seance} />
+                    {this.state.sessions.map( (session, i) => (
+                        <Setting key={i} session={session} />
                     ))}
             </React.Fragment>
         );
@@ -16,14 +25,13 @@ class PomodoroClock extends React.Component {
 }
 
 function Setting(props) {
-    let name = props.name;
     return (
         <div className="marg-bot-m">
-            <div id={props.name + "-label"} className="cap">{props.name} length</div>
+            <div id={props.session.name + "-label"} className="cap">{props.session.name} length</div>
             <div>
-                <span id={props.name + "-decrement"} className="unary-button inl-bl">-</span>
-                <span id={props.name + "-length"}>0</span>
-                <span id={props.name + "-increment"} className="unary-button inl-bl">+</span>
+                <span id={props.session.name + "-decrement"} className="unary-button inl-bl">-</span>
+                <span id={props.session.name + "-length"}>{props.session.defaultVal}</span>
+                <span id={props.session.name + "-increment"} className="unary-button inl-bl">+</span>
             </div>
         </div>
     );

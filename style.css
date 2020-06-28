@@ -13,11 +13,31 @@ h1 { margin-bottom: 50px; }
     max-width: 700px;
 }
 
+#timer {
+    background-color: #eee;
+    border: 2px solid #999;
+    border-radius: 300px;
+    font-size: 1.5em;
+    height: 200px;
+    margin: 50px auto;
+    padding: 50px;
+    text-align: center;
+    width: 200px;
+}
+
 .cap { text-transform: capitalize; }
+
+.fl-r { float: right; }
 
 .inl-bl { display: inline-block; }
 
 .marg-bot-m { margin-bottom: 20px; }
+.marg-top-m { margin-top: 20px; }
+
+.text-bold { font-weight: bold; }
+.text-cap { text-transform: capitalize; }
+.text-l { font-size: 1.5em; }
+.text-underline { text-decoration: underline; }
 
 .unary-button {
     border: 2px solid #aaa;

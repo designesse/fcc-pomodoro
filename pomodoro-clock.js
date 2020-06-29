@@ -18,6 +18,7 @@ class PomodoroClock extends React.Component {
         this.clickPlayPause = this.clickPlayPause.bind(this);
         this.clickReset = this.clickReset.bind(this);
         this.countDown = this.countDown.bind(this);
+        this.goNextSess = this.goNextSess.bind(this);
         this.unaryUpdate = this.unaryUpdate.bind(this);
     }
 
@@ -37,6 +38,8 @@ class PomodoroClock extends React.Component {
     }
 
     clickReset() {
+        document.querySelector("audio").pause();
+        document.querySelector("audio").currentTime = 0;
         clearInterval(this.state.intervId);
         let sessions = this.state.sessions.map( session => { session.timeVal = session.timeDefaultVal; return session });
         let timer = this.state.currSess;
@@ -47,9 +50,12 @@ class PomodoroClock extends React.Component {
 
     countDown() {
         let timer = this.state.currSess;
-        let isOn = this.state.isOn;
         if ( timer.sec ) {
             timer.sec--;
+
+            if ( timer.sec === 0 && timer.min === 0 ) {
+                document.querySelector("audio").play();
+            }
         }
         else {
             if ( timer.min ) {
@@ -57,11 +63,20 @@ class PomodoroClock extends React.Component {
                 timer.min--;
             }
             else {
-                isOn = false;
+                this.goNextSess();
             }
         }
 
-        this.setState((state, props) => { return {isOn: isOn, currSess: timer} });
+        this.setState((state, props) => { return {timer: timer} });
+    }
+
+    goNextSess() {
+        let timer = this.state.currSess;
+        let sessions = this.state.sessions;
+        let iNextSess = timer.iSess+1 < sessions.length ? timer.iSess+1 : 0;
+        let nextSess = { iSess: iNextSess, name: sessions[iNextSess].name, min: sessions[iNextSess].timeVal, sec: 0 };
+
+        this.setState((state, props) => { return {currSess: nextSess} });
     }
 
     unaryUpdate(op, iSess) {
@@ -114,6 +129,7 @@ function Timer(props) {
             <div id="time-left" className="marg-bot-m text-l">{formatmmss(props.currSess.min, props.currSess.sec)}</div>
             <div id="start_stop" className="marg-bot-m"><span className="pointer text-bold" onClick={() => props.clickPlayPause()}>{ props.isOn ? "II" : ">" }</span></div>
             <div id="reset" className="marg-bot-m"><span className="pointer text-underline" onClick={() => props.clickReset()}>Reset</span></div>
+            <audio id="beep" src="http://www.orangefreesounds.com/wp-content/uploads/2020/02/Dream-harp.mp3?_=1" />
         </div>
     )
 }

@@ -10,9 +10,48 @@ class PomodoroClock extends React.Component {
                 { name: 'session', timeDefaultVal: 25 },
                 { name: 'break', timeDefaultVal: 5 },
             ],
-            'currSess': { iSess: 0, name: 'session', min: 25, sec: 0 }
+            'currSess': { iSess: 0, name: 'session', min: 25, sec: 0 },
+            'isOn': false,
+            'intervId': null
         };
+
+        this.clickPlayPause = this.clickPlayPause.bind(this);
+        this.countDown = this.countDown.bind(this);
         this.unaryUpdate = this.unaryUpdate.bind(this);
+    }
+
+    countDown() {
+        let timer = this.state.currSess;
+        let isOn = this.state.isOn;
+        if ( timer.sec ) {
+            timer.sec--;
+        }
+        else {
+            if ( timer.min ) {
+                timer.sec = 59;
+                timer.min--;
+            }
+            else {
+                isOn = false;
+            }
+        }
+
+        this.setState((state, props) => { return {isOn: isOn, currSess: timer} });
+    }
+
+    clickPlayPause() {
+        var intervId = this.state.intervId;
+        var isStatusOn = !this.state.isOn;
+
+        if (isStatusOn) {
+            intervId = setInterval(this.countDown, 1000);
+        }
+        else {
+            clearInterval(intervId);
+            intervId = null;
+        }
+
+        this.setState((state, props) => { return {isOn: isStatusOn, intervId: intervId} });
     }
 
     unaryUpdate(op, iSess) {
@@ -29,7 +68,7 @@ class PomodoroClock extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Timer currSess={this.state.currSess} />
+                <Timer currSess={this.state.currSess} isOn={this.state.isOn} clickPlayPause={this.clickPlayPause} />
                 <div className="fl-r">
                     {this.state.sessions.map( (session, i) => (
                         <Setting key={i} session={session} iSess={i} unaryUpdate={this.unaryUpdate} />
@@ -50,7 +89,7 @@ function Timer(props) {
         <div id="timer" className="marg-bot-m">
             <div id="timer-label" className="marg-bot-m marg-top-m text-cap text-l">{props.currSess.name}</div>
             <div id="time-left" className="marg-bot-m text-l">{formatmmss(props.currSess.min, props.currSess.sec)}</div>
-            <div id="start_stop" className="marg-bot-m"><span className="text-bold">&gt;</span> | <span className="text-bold">II</span></div>
+            <div id="start_stop" className="marg-bot-m"><span className="pointer text-bold" onClick={() => props.clickPlayPause()}>{ props.isOn ? "II" : ">" }</span></div>
             <div id="reset" className="marg-bot-m"><span className="text-underline">Reset</span></div>
         </div>
     )

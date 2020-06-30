@@ -42,9 +42,7 @@ class PomodoroClock extends React.Component {
         document.querySelector("audio").currentTime = 0;
         clearInterval(this.state.intervId);
         let sessions = this.state.sessions.map( session => { session.timeVal = session.timeDefaultVal; return session });
-        let timer = this.state.currSess;
-        timer.min = sessions[timer.iSess].timeDefaultVal;
-        timer.sec = 0;
+        let timer = { iSess: 0, name: sessions[0].name, min: sessions[0].timeDefaultVal, sec: 0 };
         this.setState((state, props) => { return {currSess: timer, intervId: null, isOn: false, sessions: sessions} });
     }
 
